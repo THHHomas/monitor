@@ -1,0 +1,18 @@
+QPushButton#up {
+	border-image: url(./pic/up.png);
+}
+QPushButton#down {
+	border-image: url(./pic/down.png);
+}
+QPushButton#left {
+	border-image: url(./pic/left.png);
+}
+QPushButton#right {
+	border-image: url(./pic/right.png);
+}
+QPushButton#fun_up {
+	border-image: url(./pic/fun_up.png);
+}
+QPushButton#fun_down {
+	border-image: url(./pic/fun_down.png);
+}
