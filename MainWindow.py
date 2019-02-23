@@ -217,21 +217,23 @@ class MyTableWidget(QWidget):
                 if self.table_widget.item(i, 0) is None:
                     self.table_widget.setItem(i , 0, QTableWidgetItem(str(x)))
                     self.table_widget.setItem(i , 1, QTableWidgetItem(str(y)))
+                    self.table_widget.setItem(i , 2, QTableWidgetItem(str(x + 1)))
+                    self.table_widget.setItem(i , 3, QTableWidgetItem(str(y + 2)))
                     break
         else:
             current_row = self.table_widget.currentRow()
-            self.table_widget.takeItem(current_row, 2)
-            self.table_widget.takeItem(current_row, 3)
             self.table_widget.setItem(current_row , 0, QTableWidgetItem(str(x)))
             self.table_widget.setItem(current_row , 1, QTableWidgetItem(str(y)))
+            self.table_widget.setItem(i , 2, QTableWidgetItem(str(x + 1)))
+            self.table_widget.setItem(i , 3, QTableWidgetItem(str(y + 2)))
 
     def start_calculate(self):
         for i in range(self.table_widget.rowCount()):
              if not self.table_widget.item(i, 0) is None:
-                x = int(self.table_widget.item(i, 0).text())
-                y = int(self.table_widget.item(i, 1).text())
-                self.table_widget.setItem(i , 2, QTableWidgetItem(str(x + 1)))
-                self.table_widget.setItem(i , 3, QTableWidgetItem(str(y + 2)))
+                alpha = self.table_widget.item(i, 0).text()
+                beta = self.table_widget.item(i, 1).text()
+                print('alpha:', alpha, 'beta:', beta)
+                
 
 
 if __name__ == '__main__':
