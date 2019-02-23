@@ -2,7 +2,7 @@ import cv2
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, \
                             QGridLayout, QHBoxLayout, QTableWidget, QHeaderView, \
                             QAbstractItemView, QTableWidgetItem
-from PyQt5.QtCore import Qt, QTimer, pyqtSignal
+from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QPoint
 from PyQt5.QtGui import QImage, QPixmap
 
 from Configure import Configure
@@ -179,7 +179,7 @@ class FunctionItem(QVBoxLayout):
 class MyTableWidget(QWidget):
     def __init__(self):
         super(MyTableWidget, self).__init__()
-        self.table_widget = QTableWidget(5, 4)
+        self.table_widget = QTableWidget(5, 5)
         self.add_pushbutton = QPushButton(clicked=self.add_row)
         self.remove_pushbutton = QPushButton(clicked=self.remove_row)
         self.start_pushbutton = QPushButton('start', clicked=self.start_calculate)
@@ -187,7 +187,7 @@ class MyTableWidget(QWidget):
         self.remove_pushbutton.setObjectName('remove')
 
         self.table_widget.setMinimumWidth(400)
-        self.table_widget.setHorizontalHeaderLabels(['x', 'y', 'α', 'β'])
+        self.table_widget.setHorizontalHeaderLabels(['x', 'y', 'α', 'β', 'get'])
         self.table_widget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.table_widget.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.table_widget.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -215,17 +215,27 @@ class MyTableWidget(QWidget):
         if self.table_widget.currentRow() == -1:
             for i in range(self.table_widget.rowCount()):
                 if self.table_widget.item(i, 0) is None:
-                    self.table_widget.setItem(i , 0, QTableWidgetItem(str(x)))
-                    self.table_widget.setItem(i , 1, QTableWidgetItem(str(y)))
-                    self.table_widget.setItem(i , 2, QTableWidgetItem(str(x + 1)))
-                    self.table_widget.setItem(i , 3, QTableWidgetItem(str(y + 2)))
+                    self.table_widget.setItem(i, 0, QTableWidgetItem(str(x)))
+                    self.table_widget.setItem(i, 1, QTableWidgetItem(str(y)))
+                    self.table_widget.setCellWidget(i, 4, QPushButton('get', clicked=self.get_alpha_beta))
+                    # self.table_widget.setItem(i , 2, QTableWidgetItem(str(x + 1)))
+                    # self.table_widget.setItem(i , 3, QTableWidgetItem(str(y + 2)))
                     break
         else:
             current_row = self.table_widget.currentRow()
-            self.table_widget.setItem(current_row , 0, QTableWidgetItem(str(x)))
-            self.table_widget.setItem(current_row , 1, QTableWidgetItem(str(y)))
-            self.table_widget.setItem(i , 2, QTableWidgetItem(str(x + 1)))
-            self.table_widget.setItem(i , 3, QTableWidgetItem(str(y + 2)))
+            self.table_widget.setItem(current_row, 0, QTableWidgetItem(str(x)))
+            self.table_widget.setItem(current_row, 1, QTableWidgetItem(str(y)))
+            self.table_widget.setCellWidget(current_row, 4, QPushButton('get', clicked=self.get_alpha_beta))
+            # self.table_widget.setItem(i , 2, QTableWidgetItem(str(x + 1)))
+            # self.table_widget.setItem(i , 3, QTableWidgetItem(str(y + 2)))
+
+    def get_alpha_beta(self):
+        sender_frame_geometry = self.sender()
+        current_row = self.table_widget.indexAt(QPoint(sender_frame_geometry.x(), sender_frame_geometry.y())).row()
+        x = int(self.table_widget.item(current_row, 0).text())
+        y = int(self.table_widget.item(current_row, 1).text())
+        self.table_widget.setItem(current_row, 2, QTableWidgetItem(str(x + 1)))
+        self.table_widget.setItem(current_row, 3, QTableWidgetItem(str(y + 2)))
 
     def start_calculate(self):
         for i in range(self.table_widget.rowCount()):
