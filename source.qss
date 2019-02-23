@@ -16,3 +16,9 @@ QPushButton#fun_up {
 QPushButton#fun_down {
 	border-image: url(./pic/fun_down.png);
 }
+QPushButton#add {
+	border-image: url(./pic/add.png);
+}
+QPushButton#remove {
+	border-image: url(./pic/remove.png);
+}
