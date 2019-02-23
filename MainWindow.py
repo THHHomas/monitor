@@ -1,7 +1,7 @@
 import cv2
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, \
                             QGridLayout, QHBoxLayout, QTableWidget, QHeaderView, \
-                            QAbstractItemView, QTableWidgetItem
+                            QAbstractItemView, QTableWidgetItem, QSizePolicy
 from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QPoint
 from PyQt5.QtGui import QImage, QPixmap
 
@@ -217,17 +217,16 @@ class MyTableWidget(QWidget):
                 if self.table_widget.item(i, 0) is None:
                     self.table_widget.setItem(i, 0, QTableWidgetItem(str(x)))
                     self.table_widget.setItem(i, 1, QTableWidgetItem(str(y)))
-                    self.table_widget.setCellWidget(i, 4, QPushButton('get', clicked=self.get_alpha_beta))
-                    # self.table_widget.setItem(i , 2, QTableWidgetItem(str(x + 1)))
-                    # self.table_widget.setItem(i , 3, QTableWidgetItem(str(y + 2)))
+                    get_pushbutton = QPushButton('get', clicked=self.get_alpha_beta)
+                    # get_pushbutton.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+                    get_pushbutton.setFixedWidth(65)
+                    self.table_widget.setCellWidget(i, 4, get_pushbutton)
                     break
         else:
             current_row = self.table_widget.currentRow()
             self.table_widget.setItem(current_row, 0, QTableWidgetItem(str(x)))
             self.table_widget.setItem(current_row, 1, QTableWidgetItem(str(y)))
             self.table_widget.setCellWidget(current_row, 4, QPushButton('get', clicked=self.get_alpha_beta))
-            # self.table_widget.setItem(i , 2, QTableWidgetItem(str(x + 1)))
-            # self.table_widget.setItem(i , 3, QTableWidgetItem(str(y + 2)))
 
     def get_alpha_beta(self):
         sender_frame_geometry = self.sender()
